@@ -4,15 +4,19 @@ const sequelize = require("../Config/db");
 const City = sequelize.define(
   "mstCity",
   {
-    id: {
+    Id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
+    Name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    IsDeleted:{
+      type:DataTypes.BOOLEAN,
+      defaultValue:false
+    }
   },
   {
     timestamps: true,

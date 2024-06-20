@@ -37,7 +37,8 @@ const getUser = async (req, res) => {
 // create an user ----
 const createUser = async (req, res) => {
   try {
-    const user = await User.create(req.body);
+    const { Name, CityId } = req.body;
+    const user = await User.create({ Name, CityId });
     sendSuccessResponse(res, user);
   } catch (error) {
     sendErrorResponse(res, error);
@@ -65,10 +66,13 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const deleted = await User.destroy({ where: { id } });
-    if (deleted) {
+    const user = await User.findOne({ where: { id } });
+    if (user) {
+      user.IsDeleted = true;
+      await user.save();
       sendNoContentResponse(res);
-    } else {
+    }
+    else {
       sendNotFoundResponse(res, "User not found");
     }
   } catch (error) {

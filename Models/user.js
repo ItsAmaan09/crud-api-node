@@ -5,21 +5,25 @@ const City = require("./city");
 const User = sequelize.define(
   "User1",
   {
-    id: {
+    Id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
+    Name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    cityId: {
+    CityId: {
       type: DataTypes.INTEGER,
       references: {
         model: City,
-        key: "id",
-      }
+        key: "Id",
+      },
+    },
+    IsDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue:false
     },
   },
   {

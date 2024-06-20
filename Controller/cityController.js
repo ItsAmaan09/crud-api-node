@@ -32,7 +32,8 @@ const getCity = async (req, res) => {
 
 const createCity = async (req, res) => {
   try {
-    const city = await City.create(req.body);
+    const { Name } = req.body;
+    const city = await City.create({ Name });
     sendSuccessResponse(res, city);
   } catch (error) {
     sendErrorResponse(res, error);
@@ -54,24 +55,30 @@ const updateCity = async (req, res) => {
   }
 };
 
-const deleteCity = async(req,res)=>{
+const deleteCity = async (req, res) => {
   try {
-    const {id} = req.params;
-    const deleted = await City.destroy({where:{id}});
-    if(deleted){
+    const { id } = req.params;
+    const city = await City.findOne({where:{id}});
+    if(city){
+      city.IsDeleted = true;
+      await city.save();
       sendNoContentResponse(res);
-    } else {
-      sendNotFoundResponse(res,'City not found')
+    }
+    // const deleted = await City.destroy({ where: { id } });
+    // if (deleted) {
+    // }
+    else {
+      sendNotFoundResponse(res, "City not found");
     }
   } catch (error) {
-    sendErrorResponse(res,error)
+    sendErrorResponse(res, error);
   }
-}
+};
 
 module.exports = {
   getCities,
   createCity,
   getCity,
   updateCity,
-  deleteCity
+  deleteCity,
 };
