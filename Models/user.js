@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../Config/db");
+const City = require("./city");
 
 const User = sequelize.define(
   "User1",
@@ -13,10 +14,20 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    cityId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: City,
+        key: "id",
+      }
+    },
   },
   {
-    timestamps: false,
+    timestamps: true,
   }
 );
+
+// User.belongsTo(City,{foreignKey:'cityId'});
+// City.hasMany(User,{foreignKey:'cityId'});
 
 module.exports = User;

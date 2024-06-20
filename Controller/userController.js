@@ -1,3 +1,4 @@
+const City = require("../Models/city");
 const User = require("../Models/user");
 const {
   sendSuccessResponse,
@@ -10,6 +11,7 @@ const {
 const getUsers = async (req, res) => {
   try {
     const users = await User.findAll();
+    // const users = await User.findAll({include:City});
     sendSuccessResponse(res, users);
   } catch (error) {
     sendErrorResponse(res, error);
@@ -21,6 +23,7 @@ const getUser = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findOne({ where: { id } });
+    // const user = await User.findOne({ where: { id },include:City });
     if (user) {
       sendSuccessResponse(res, user);
     } else {
@@ -48,6 +51,7 @@ const updateUser = async (req, res) => {
     const [updated] = await User.update(req.body, { where: { id } });
     if (updated) {
       const updatedUser = await User.findOne({ where: { id } });
+      // const updatedUser = await User.findOne({ where: { id },include:City });
       sendSuccessResponse(res, updatedUser);
     } else {
       sendNotFoundResponse(res, "User not found");
