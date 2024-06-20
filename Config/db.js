@@ -2,7 +2,6 @@ const { Sequelize } = require("sequelize");
 
 const sequelize = new Sequelize("NodeDB", "sa", "admin@123", {
   host: "localhost",
-  port: 1433,
   dialect: "mssql",
   dialectOptions: {
     options: { encrypt: false, enableArithAbort: true,instanceName: 'SQLEXPRESS' },
