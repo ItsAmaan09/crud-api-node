@@ -4,7 +4,7 @@ const {
   sendNoContentResponse,
   sendNotFoundResponse,
   sendErrorResponse,
-  sendBadRequestResponse
+  sendBadRequestResponse,
 } = require("../Utils/responseHandler");
 const User = require("../Models/user");
 // get all city:-
@@ -66,19 +66,20 @@ const deleteCity = async (req, res) => {
       },
     });
     if (associatedUsers) {
-     sendBadRequestResponse(res, "Can't delete City, User is associated with it"); // need to change.
-    }
-    const city = await City.findOne({ where: { id } });
-    if (city) {
-      city.IsDeleted = true;
-      await city.save();
-      sendNoContentResponse(res);
-    }
-    // const deleted = await City.destroy({ where: { id } });
-    // if (deleted) {
-    // }
-    else {
-      sendNotFoundResponse(res, "City not found");
+      sendBadRequestResponse(
+        res,
+        "Can't delete City, User is associated with it"
+      );
+    } else {
+      const city = await City.findOne({ where: { id } });
+      if (city) {
+        city.IsDeleted = true;
+        await city.save();
+        sendNoContentResponse(res);
+      }
+      else {
+        sendNotFoundResponse(res, "City not found");
+      }
     }
   } catch (error) {
     sendErrorResponse(res, error);
