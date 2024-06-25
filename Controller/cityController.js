@@ -7,7 +7,10 @@ const {
   sendBadRequestResponse,
 } = require("../Utils/responseHandler");
 const User = require("../Models/user");
-// get all city:-
+
+
+
+
 const getCities = async (req, res) => {
   try {
     const cities = await City.findAll();
@@ -66,10 +69,7 @@ const deleteCity = async (req, res) => {
       },
     });
     if (associatedUsers) {
-      sendBadRequestResponse(
-        res,
-        "Can't delete City, User is associated with it"
-      );
+      sendBadRequestResponse(res,"Can't delete City, User is associated with it");
     } else {
       const city = await City.findOne({ where: { id } });
       if (city) {
